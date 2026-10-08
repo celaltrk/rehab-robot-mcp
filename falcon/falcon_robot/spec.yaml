@@ -1,0 +1,71 @@
+name: falcon
+screen_axes: [1, 2]
+description: >-
+  a 3-DOF Novint Falcon haptic device: impedance guidance (target + stiffness)
+  and haptic rendering of virtual objects
+
+parameters:
+  - name: target_x
+    type: float
+    description: Target hand position, X axis (toward you / away from you)
+    unit: m
+    minimum: -0.06
+    maximum: 0.06
+    step: 0.005
+    max_delta: 0.02
+    default: 0.0
+
+  - name: target_y
+    type: float
+    description: Target hand position, Y axis (left/right)
+    unit: m
+    minimum: -0.06
+    maximum: 0.06
+    step: 0.005
+    max_delta: 0.02
+    default: 0.0
+
+  - name: target_z
+    type: float
+    description: Target hand position, Z axis (up/down)
+    unit: m
+    minimum: -0.06
+    maximum: 0.06
+    step: 0.005
+    max_delta: 0.02
+    default: 0.0
+
+  - name: stiffness
+    type: float
+    description: >-
+      Spring stiffness attracting the hand to the target (0 disables guidance;
+      larger values assist more firmly)
+    unit: N/m
+    minimum: 0.0
+    maximum: 3000.0
+    step: 10.0
+    max_delta: 1000.0
+    default: 40.0
+
+  - name: damping
+    type: float
+    description: Velocity damping, which resists rapid motion and improves stability
+    unit: N.s/m
+    minimum: 0.0
+    maximum: 20.0
+    step: 0.5
+    max_delta: 10.0
+    default: 1.0
+
+requires_hardware: true
+max_force: 8.0
+
+actions:
+  - name: release
+    description: >-
+      Let go: drop stiffness and damping to zero at once, leaving the handle
+      free to move. Reducing stiffness through set_parameters is limited to one
+      step at a time, so from a firm hold it takes several calls; this gets
+      there in one. Unlike e_stop it does not latch, so parameters can be set
+      again straight away. Clears stiffness and damping only — an exercise's
+      rendered scene is stopped with stop_exercise.

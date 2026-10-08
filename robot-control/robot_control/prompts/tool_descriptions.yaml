@@ -1,0 +1,21 @@
+# Descriptions of the tools the server adds to every robot, as seen by the model.
+
+set_parameters: >
+  Set one or more control parameters of the {robot} ({description}). Only the
+  parameters you name are changed. Values outside the safe range are rejected.
+
+get_state: >
+  Read the current state of the {robot}: live parameter values, whatever
+  telemetry it reports, and status (including whether it is e-stopped).
+  Call this before changing anything, so adjustments are relative to where the
+  device actually is.
+
+e_stop: >
+  EMERGENCY STOP the {robot}: make it safe immediately. Always succeeds and
+  overrides everything else. This LATCHES — while stopped, set_parameters is
+  refused. Use {prefix}resume to re-enable.
+
+resume: >
+  Clear a latched emergency stop on the {robot} and return it to normal
+  operation. The device stays passive (no motion) until parameters are set
+  again. Call this after {prefix}e_stop before setting parameters.

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "falcon-robot"
+version = "0.1.0"
+description = "Novint Falcon backend for robot-control: ROS 2 and CHAI3D haptic rendering"
+requires-python = ">=3.10"
+# The abstraction, from its own repository. During development install it
+# editable instead:  pip install -e ../robot-control
+dependencies = ["robot-control"]
+
+# How robot-control finds this robot. No paths and no manifest: installing this
+# package is the registration. Every robot is its own distribution and names its
+# own top-level package, so a second one drops in beside this without either
+# knowing about the other. The module is named after the distribution
+# (falcon-robot -> falcon_robot), the same rule robot-control follows, and
+# deliberately not after the repository directory: a package sharing its
+# parent's name is shadowed by that directory whenever the parent is on the
+# import path.
+[project.entry-points."robot_control.robots"]
+falcon = "falcon_robot"
+
+[tool.setuptools]
+packages = ["falcon_robot", "falcon_robot.exercises",
+            "falcon_robot.exercises.reach",
+            "falcon_robot.exercises.haptic_rendering"]
+
+[tool.setuptools.package-data]
+"falcon_robot" = ["*.yaml"]
+"falcon_robot.exercises.reach" = ["*.yaml"]
+"falcon_robot.exercises.haptic_rendering" = ["*.yaml", "*.rviz"]

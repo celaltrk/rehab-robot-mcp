@@ -1,0 +1,53 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded: ~
+Visualization Manager:
+  Global Options:
+    Background Color: 25; 25; 30
+    Fixed Frame: world
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 0.02
+      Plane Cell Count: 12
+      Color: 80; 80; 90
+      Line Style:
+        Value: Lines
+    - Class: rviz_default_plugins/Axes
+      Name: Axes
+      Enabled: true
+      Length: 0.03
+      Radius: 0.002
+      Reference Frame: world
+    - Class: rviz_default_plugins/MarkerArray
+      Name: HapticScene
+      Enabled: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+        Value: /haptic_markers
+      Namespaces:
+        haptic: true
+  Tools:
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 0.35
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Pitch: 0.35
+      Yaw: 0.8
+      Near Clip Distance: 0.001
+Window Geometry:
+  Height: 800
+  Width: 1200

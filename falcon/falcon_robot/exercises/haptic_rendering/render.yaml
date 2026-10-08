@@ -1,0 +1,110 @@
+# Haptic rendering as an exercise on the falcon. The object vocabulary is
+# this robot's own: what it can render, and within what limits.
+# `extra_schema` is structured input the scalar validator cannot express, so
+# the backend clamps every object on the way to the device.
+name: render
+# A scene of 3D objects is worth seeing in 3D, so this one brings up
+# RViz rather than the flat window.
+viewer: exercises/haptic_rendering/run_rviz.sh
+description: Render a scene of virtual objects perceptible through the handle (walls, spheres,
+  springs, viscous fields). Replaces the current scene; forces are summed and clamped for
+  safety. Objects resist on contact; no position-independent force displaces the hand on its
+  own.
+extra_schema:
+  type: object
+  required:
+  - objects
+  properties:
+    objects:
+      type: array
+      description: Virtual haptic objects to render. Replaces the current scene. Pass an empty
+        list to clear.
+      items:
+        type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - sphere
+            - box
+            - cylinder
+            - ellipsoid
+            - cone
+            - mesh
+            - plane
+            - spring
+            - viscous
+            - vibration
+            description: 'sphere: solid at `point`/`radius`. box: `point`/`size` (half-extents).
+              cylinder: `point`/`radius`/`height` (axis +z). ellipsoid: `point`/`size`=[rx,ry,rz].
+              cone: `point`/`radius`(base)/`height`. mesh: ARBITRARY shape from `vertices`+`triangles`.
+              plane: one-sided wall through `point` with outward `normal`. spring: attracts
+              toward `point`. viscous: velocity-dependent resistance throughout the workspace,
+              set by `damping`. vibration: a buzz felt wherever the hand is, with no net push
+              — a cue, not an object. All solids are rendered by CHAI3D''s god-object algorithm
+              and may carry surface texture. NOTE: no position-independent force object is
+              provided; a scene renders shapes that resist on contact, never a force applied
+              in a fixed direction everywhere. For directional guidance use the impedance
+              controller (target_* + stiffness) instead.'
+          point:
+            type: array
+            items:
+              type: number
+            minItems: 3
+            maxItems: 3
+            description: '[x,y,z] in metres — the GEOMETRIC CENTRE of the object for every
+              solid (sphere, box, cylinder, ellipsoid, cone, mesh), i.e. a cylinder or cone
+              of height h spans point_z ± h/2, not point_z to point_z+h. For a plane it is
+              a point on the plane; for spring/viscous it is the anchor. Each axis roughly
+              within ±0.05.'
+          normal:
+            type: array
+            items:
+              type: number
+            minItems: 3
+            maxItems: 3
+            description: '[nx,ny,nz] outward normal of a plane (need not be unit length).'
+          size:
+            type: array
+            items:
+              type: number
+            minItems: 3
+            maxItems: 3
+            description: '[hx,hy,hz] box half-extents in metres.'
+          radius:
+            type: number
+            description: Sphere/cylinder radius in metres (0-0.05).
+          height:
+            type: number
+            description: Cylinder height in metres.
+          stiffness:
+            type: number
+            description: N/m for sphere/box/cylinder/plane/spring. 0-3000; a rigid wall is
+              ~1500-3000, a compliant one ~300-600.
+          damping:
+            type: number
+            description: N·s/m for viscous (0-20).
+          friction:
+            type: number
+            description: Surface friction 0-1 (0 = frictionless, 1 = maximum resistance) for
+              any solid.
+          vibration_freq:
+            type: number
+            description: Vibration frequency in Hz applied on contact (0 = smooth surface).
+          vibration_amp:
+            type: number
+            description: Vibration amplitude in N (0-8), producing a textured surface.
+          vertices:
+            type: array
+            items:
+              type: number
+            description: 'type=mesh only: flat [x0,y0,z0, x1,y1,z1, ...] vertex coords (m)
+              relative to `point`.'
+          triangles:
+            type: array
+            items:
+              type: integer
+            description: 'type=mesh only: flat [i0,i1,i2, ...] triangle vertex indices into
+              `vertices`.'

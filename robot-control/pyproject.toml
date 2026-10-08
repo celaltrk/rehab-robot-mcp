@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robot-control"
+version = "0.1.0"
+description = "Robot-agnostic MCP server: capability specs, a safety validator, and an exercise runner"
+requires-python = ">=3.10"
+dependencies = ["mcp>=1.0,<2", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dev = ["pytest", "pyflakes"]
+
+[tool.setuptools]
+packages = ["robot_control", "robot_control.prompts"]
+
+[tool.setuptools.package-data]
+"robot_control.prompts" = ["*.yaml"]

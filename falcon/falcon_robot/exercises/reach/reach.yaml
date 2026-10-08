@@ -1,0 +1,63 @@
+# The 2D reaching exercise, as the model sees it.
+
+name: reach
+# This robot ships the flat window: a goal, the hand, the score.
+viewer: exercises/reach/run_window.sh
+description: >-
+  A dot appears in the workspace; the USER moves the handle onto it and holds
+  still until it registers, then the next dot appears. Measures reach time and
+  how directly each dot was approached. The robot does not move the hand
+
+parameters:
+  - name: targets
+    type: int
+    description: How many dots to present before the round is done
+    minimum: 1
+    maximum: 100
+    default: 10
+
+  - name: spread
+    type: float
+    description: How far from the centre the dots may appear
+    unit: m
+    minimum: 0.01
+    maximum: 0.055
+    step: 0.005
+    default: 0.04
+
+  - name: radius
+    type: float
+    description: How close the hand must get for a dot to count
+    unit: m
+    minimum: 0.003
+    maximum: 0.03
+    step: 0.001
+    default: 0.008
+
+  - name: dwell
+    type: float
+    description: How long the hand must hold still on a dot before it counts
+    unit: s
+    minimum: 0.0
+    maximum: 3.0
+    step: 0.1
+    default: 0.3
+
+  - name: assist
+    type: float
+    description: >-
+      Optional pull toward the dot once the hand is close, as a fraction of full
+      strength (0 = unaided, which is the default; raise it for a patient who
+      overshoots)
+    unit: fraction
+    minimum: 0.0
+    maximum: 1.0
+    step: 0.05
+    default: 0.0
+
+  - name: seed
+    type: int
+    description: Fixes the dot sequence so a round can be repeated exactly
+    minimum: 0
+    maximum: 999999
+    default: 0
