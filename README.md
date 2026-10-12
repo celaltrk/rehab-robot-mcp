@@ -146,6 +146,8 @@ robot-agnostic claim is asserted rather than tested; a larger model on a bigger
 host, which is a client-side change with no server changes; and HTTP+SSE
 transport for a split interface-PC / robot-PC setup.
 
+[![M8ven Score](https://m8ven.ai/badge/mcp/celaltrk-rehab-robot-mcp-19j8q9?v=31597ce34a4cba3506223af2438885db)](https://m8ven.ai/mcp/celaltrk-rehab-robot-mcp-19j8q9?s=readme)
+
 ## License
 
 [MIT](LICENSE) © 2026 Celal Türkmen. The report in `docs/` is the submitted
